@@ -4,8 +4,14 @@ import { TodoHeader } from './TodoHeader';
 
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
-	console.log(state, dispatch);
+
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
+
+	const onDelete = todo => {
+		setTimeout(() => {
+			dispatch({ type: 'COMPLETE', payload: todo });
+		}, 3000);
+	};
 
 	let header =
 		state.todos.length === 0 ? (
@@ -24,58 +30,50 @@ export default function TodoList() {
 						{header}
 					</div>
 				</div>
-				<div className="row">
-					<div className="col-md-12">
-						<table className="table">
-							<thead className="thead-dark">
-								<tr>
-									{state.columns.map((col, index) => (
-										<th key={index} scope="col">
-											{col}
-										</th>
-									))}
-								</tr>
-							</thead>
-							<tbody>
-								{state.todos.map(todo => (
-									<tr key={todo.uniqueId}>
-										<th scope="row">{todo.uniqueId}</th>
-										<td>{todo.title}</td>
-										<td>{todo.content}</td>
-										<td>
-											<button
-												className="float-right btn btn-danger btn-sm"
-												onClick={() => dispatch({ type: 'COMPLETE', payload: todo })}
+				{state.todos.length > 0 && (
+					<div className="row">
+						<div className="col-md-12">
+							<table className="table">
+								<thead className="thead-dark">
+									<tr>
+										{state.columns.map((col, index) => (
+											<th
+												key={index}
+												style={col === 'Actions' ? { textAlign: 'right' } : {}}
+												scope="col"
 											>
-												Complete
-											</button>
-											<button
-												style={{ marginRight: '1rem' }}
-												className="float-right btn btn-primary btn-sm"
-											>
-												Edit
-											</button>
-										</td>
+												{col}
+											</th>
+										))}
 									</tr>
-								))}
-							</tbody>
-						</table>
-						{/* <ul className="list-group">
-							{state.todos.map(t => (
-								<li key={t.uniqueId} className="list-group-item">
-									{t.title}
-									<button
-										className="float-right btn btn-danger btn-sm"
-										style={{ marginLeft: 10 }}
-										onClick={() => dispatch({ type: 'COMPLETE', payload: t })}
-									>
-										Complete
-									</button>
-								</li>
-							))}
-						</ul> */}
+								</thead>
+								<tbody>
+									{state.todos.map(todo => (
+										<tr key={todo.uniqueId}>
+											<th scope="row">{todo.uniqueId}</th>
+											<td>{todo.title}</td>
+											<td>{todo.content}</td>
+											<td>
+												<button
+													className="float-right btn btn-danger btn-sm"
+													onClick={() => onDelete(todo)}
+												>
+													Delete
+												</button>
+												<button
+													style={{ marginRight: '1rem' }}
+													className="float-right btn btn-primary btn-sm"
+												>
+													Edit
+												</button>
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		</div>
 	);

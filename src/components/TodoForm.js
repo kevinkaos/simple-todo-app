@@ -21,11 +21,13 @@ export default function TodoForm() {
 	}
 
 	function handleTodoAdd() {
-		// Set timeout to ensure Date.now is a unique ID also to seem like async task
-		setTimeout(() => {
-			dispatch({ type: 'ADD_TODO', payload: todo });
-			setTodo({ uniqueId: getUniqueId(), title: '', content: '' });
-		}, 50);
+		// Set timeout to ensure Date.now is a unique ID also to seem like an async task
+		if (todo.title) {
+			setTimeout(() => {
+				dispatch({ type: 'ADD_TODO', payload: todo });
+				setTodo({ uniqueId: getUniqueId(), title: '', content: '' });
+			}, 50);
+		}
 	}
 
 	function handleSubmitForm(event) {
@@ -42,7 +44,7 @@ export default function TodoForm() {
 						style={{ width: '100%' }}
 						value={todo.title}
 						autoFocus={true}
-						placeholder="Enter todo title"
+						placeholder="Enter todo title(required)"
 						onKeyUp={handleSubmitForm}
 						onChange={e => handleTodoChange(e, 'title')}
 					/>

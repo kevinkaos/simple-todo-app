@@ -8,7 +8,9 @@ const Store = React.createContext({
 		{ uniqueId: 223456, title: 'Homework for AndroVideo2', content: 'Finish this program by 7/15' },
 		{ uniqueId: 323456, title: 'Homework for AndroVideo3', content: 'Finish this program by 7/15' }
 	],
-	columns: [ 'ID', 'Title', 'Content', 'Actions' ]
+	columns: [ 'ID', 'Title', 'Content', 'Actions' ],
+	mode: 'CREATE',
+	filter: 'ALL'
 });
 
 export default Store;
