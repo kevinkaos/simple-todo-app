@@ -1,6 +1,5 @@
 import React from 'react';
 import { MODE_NONE } from './services/mode';
-import { FILTER_ALL } from './services/filter';
 import { columns } from './services/columns';
 import { todos } from './services/todos';
 
@@ -10,7 +9,7 @@ const Store = React.createContext({
 	todos,
 	columns,
 	mode: MODE_NONE,
-	filter: FILTER_ALL
+	query: ''
 });
 
 export default Store;

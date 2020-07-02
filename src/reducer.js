@@ -4,13 +4,13 @@ export default function reducer(state, action) {
 	switch (action.type) {
 		case 'CHANGE_MODE':
 			if (action.payload === MODE_NONE) {
-				return state;
+				return { ...state, mode: action.payload };
 			}
 			if (action.payload === MODE_SEARCH) {
-				return state;
+				return { ...state, mode: action.payload };
 			}
 			if (action.payload === MODE_CREATE) {
-				return state;
+				return { ...state, mode: action.payload };
 			}
 			return state;
 		case 'ADD_TODO':

@@ -1,15 +1,21 @@
 import React, { useContext, useState } from 'react';
 import Store from '../context';
+import { MODE_CREATE, MODE_SEARCH } from '../services/mode';
 
 export default function TodoForm() {
-	const { dispatch } = useContext(Store);
-
+	const { state, dispatch } = useContext(Store);
+	const { mode } = state;
 	// Creating a local state to have currently writing
 	// todo item that will be sent to the global store.
 	const [ todo, setTodo ] = useState({ uniqueId: getUniqueId(), title: '', content: '' });
+	const [ query, setQuery ] = useState('');
 
 	function getUniqueId() {
 		return Date.now();
+	}
+
+	function handleSearch(e) {
+		setQuery(e.target.value);
 	}
 
 	function handleTodoChange(e, type) {
@@ -38,30 +44,44 @@ export default function TodoForm() {
 		<div className="row">
 			<div className="col-md-12">
 				<br />
-				<div className="input-group">
-					<input
-						className="form-control"
-						style={{ width: '100%' }}
-						value={todo.title}
-						autoFocus={true}
-						placeholder="Enter todo title(required)"
-						onKeyUp={handleSubmitForm}
-						onChange={e => handleTodoChange(e, 'title')}
-					/>
-					<textarea
-						className="form-control"
-						style={{ width: '100%' }}
-						value={todo.content}
-						autoFocus={false}
-						placeholder="Enter description"
-						onChange={e => handleTodoChange(e, 'content')}
-					/>
-					<div className="input-group-append" style={{ width: '100%' }}>
-						<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoAdd}>
-							Add
-						</button>
+				{mode === MODE_CREATE && (
+					<div className="input-group">
+						<input
+							className="form-control"
+							style={{ width: '100%' }}
+							value={todo.title}
+							autoFocus={true}
+							placeholder="Enter todo title(required)"
+							onKeyUp={handleSubmitForm}
+							onChange={e => handleTodoChange(e, 'title')}
+						/>
+						<textarea
+							className="form-control"
+							style={{ width: '100%' }}
+							value={todo.content}
+							autoFocus={false}
+							placeholder="Enter description"
+							onChange={e => handleTodoChange(e, 'content')}
+						/>
+						<div className="input-group-append" style={{ width: '100%' }}>
+							<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoAdd}>
+								Add
+							</button>
+						</div>
 					</div>
-				</div>
+				)}
+				{mode === MODE_SEARCH && (
+					<div className="input-group">
+						<input
+							className="form-control"
+							style={{ width: '100%' }}
+							value={query}
+							autoFocus={true}
+							placeholder="Search..."
+							onChange={handleSearch}
+						/>
+					</div>
+				)}
 			</div>
 		</div>
 	);
