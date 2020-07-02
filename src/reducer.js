@@ -1,6 +1,17 @@
+import { MODE_NONE, MODE_SEARCH, MODE_CREATE } from './services/mode';
+
 export default function reducer(state, action) {
 	switch (action.type) {
 		case 'CHANGE_MODE':
+			if (action.payload === MODE_NONE) {
+				return state;
+			}
+			if (action.payload === MODE_SEARCH) {
+				return state;
+			}
+			if (action.payload === MODE_CREATE) {
+				return state;
+			}
 			return state;
 		case 'ADD_TODO':
 			// return current state if empty

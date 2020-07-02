@@ -1,0 +1,12 @@
+body {
+	background-color: #eee;
+	color: #555;
+}
+
+.buttons .add {
+	background: url(../images/add.svg) no-repeat center;
+}
+
+.buttons .search {
+	background: url(../images/search.svg) no-repeat center;
+}

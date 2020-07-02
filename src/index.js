@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Store from './context';
 import reducer from './reducer';
+import './assets/style/index.css';
 
 import { usePersistedContext, usePersistedReducer } from './usePersist';
 

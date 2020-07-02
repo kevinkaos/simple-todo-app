@@ -1,16 +1,16 @@
 import React from 'react';
+import { MODE_NONE } from './services/mode';
+import { FILTER_ALL } from './services/filter';
+import { columns } from './services/columns';
+import { todos } from './services/todos';
 
 // Store Context is the global context that is managed by reducers.
 
 const Store = React.createContext({
-	todos: [
-		{ uniqueId: 123456, title: 'Homework for AndroVideo', content: 'Finish this program by 7/15' },
-		{ uniqueId: 223456, title: 'Homework for AndroVideo2', content: 'Finish this program by 7/15' },
-		{ uniqueId: 323456, title: 'Homework for AndroVideo3', content: 'Finish this program by 7/15' }
-	],
-	columns: [ 'ID', 'Title', 'Content', 'Actions' ],
-	mode: 'CREATE',
-	filter: 'ALL'
+	todos,
+	columns,
+	mode: MODE_NONE,
+	filter: FILTER_ALL
 });
 
 export default Store;
