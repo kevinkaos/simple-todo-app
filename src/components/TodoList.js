@@ -4,7 +4,7 @@ import { TodoHeader } from './TodoHeader';
 
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
-
+	console.log(state, dispatch);
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
 	let header =
@@ -26,7 +26,41 @@ export default function TodoList() {
 				</div>
 				<div className="row">
 					<div className="col-md-12">
-						<ul className="list-group">
+						<table className="table">
+							<thead className="thead-dark">
+								<tr>
+									{state.columns.map((col, index) => (
+										<th key={index} scope="col">
+											{col}
+										</th>
+									))}
+								</tr>
+							</thead>
+							<tbody>
+								{state.todos.map(todo => (
+									<tr key={todo.uniqueId}>
+										<th scope="row">{todo.uniqueId}</th>
+										<td>{todo.title}</td>
+										<td>{todo.content}</td>
+										<td>
+											<button
+												className="float-right btn btn-danger btn-sm"
+												onClick={() => dispatch({ type: 'COMPLETE', payload: todo })}
+											>
+												Complete
+											</button>
+											<button
+												style={{ marginRight: '1rem' }}
+												className="float-right btn btn-primary btn-sm"
+											>
+												Edit
+											</button>
+										</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						{/* <ul className="list-group">
 							{state.todos.map(t => (
 								<li key={t.uniqueId} className="list-group-item">
 									{t.title}
@@ -39,7 +73,7 @@ export default function TodoList() {
 									</button>
 								</li>
 							))}
-						</ul>
+						</ul> */}
 					</div>
 				</div>
 			</div>

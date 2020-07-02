@@ -6,7 +6,6 @@ export function usePersistedContext(context, key = 'state') {
 }
 
 export function usePersistedReducer([ state, dispatch ], key = 'state') {
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	useEffect(() => localStorage.setItem(key, JSON.stringify(state)), [ state ]);
+	useEffect(() => localStorage.setItem(key, JSON.stringify(state)), [ key, state ]);
 	return [ state, dispatch ];
 }

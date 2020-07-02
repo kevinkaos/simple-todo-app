@@ -39,6 +39,7 @@ export default function TodoForm() {
 				<div className="input-group">
 					<input
 						className="form-control"
+						style={{ width: '100%' }}
 						value={todo.title}
 						autoFocus={true}
 						placeholder="Enter todo title"
@@ -47,13 +48,14 @@ export default function TodoForm() {
 					/>
 					<textarea
 						className="form-control"
+						style={{ width: '100%' }}
 						value={todo.content}
 						autoFocus={false}
 						placeholder="Enter description"
 						onChange={e => handleTodoChange(e, 'content')}
 					/>
-					<div className="input-group-append">
-						<button className="btn btn-primary" onClick={handleTodoAdd}>
+					<div className="input-group-append" style={{ width: '100%' }}>
+						<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoAdd}>
 							Add
 						</button>
 					</div>
