@@ -1,46 +1,64 @@
-import React, { useContext, useState } from "react";
-import Store from "../context";
+import React, { useContext, useState } from 'react';
+import Store from '../context';
 
 export default function TodoForm() {
-  const { dispatch } = useContext(Store);
+	const { dispatch } = useContext(Store);
 
-  // Creating a local state to have currently writing
-  // todo item that will be sent to the global store.
-  const [todo, setTodo] = useState("");
+	// Creating a local state to have currently writing
+	// todo item that will be sent to the global store.
+	const [ todo, setTodo ] = useState({ uniqueId: getUniqueId(), title: '', content: '' });
 
-  function handleTodoChange(e) {
-    setTodo(e.target.value);
-  }
+	function getUniqueId() {
+		return Date.now();
+	}
 
-  function handleTodoAdd() {
-    dispatch({ type: "ADD_TODO", payload: todo });
-    setTodo("");
-  }
+	function handleTodoChange(e, type) {
+		if (type === 'title') {
+			setTodo({ ...todo, title: e.target.value });
+		} else if (type === 'content') {
+			setTodo({ ...todo, content: e.target.value });
+		}
+	}
 
-  function handleSubmitForm(event) {
-    if (event.keyCode === 13) handleTodoAdd();
-  }
+	function handleTodoAdd() {
+		// Set timeout to ensure Date.now is a unique ID also to seem like async task
+		setTimeout(() => {
+			dispatch({ type: 'ADD_TODO', payload: todo });
+			setTodo({ uniqueId: getUniqueId(), title: '', content: '' });
+		}, 50);
+	}
 
-  return (
-    <div className="row">
-      <div className="col-md-12">
-        <br />
-        <div className="input-group">
-          <input
-            className="form-control"
-            value={todo}
-            autoFocus={true}
-            placeholder="Enter new todo"
-            onKeyUp={handleSubmitForm}
-            onChange={handleTodoChange}
-          />
-          <div className="input-group-append">
-            <button className="btn btn-primary" onClick={handleTodoAdd}>
-              Add
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+	function handleSubmitForm(event) {
+		if (event.keyCode === 13) handleTodoAdd();
+	}
+
+	return (
+		<div className="row">
+			<div className="col-md-12">
+				<br />
+				<div className="input-group">
+					<input
+						className="form-control"
+						value={todo.title}
+						autoFocus={true}
+						placeholder="Enter todo title"
+						onKeyUp={handleSubmitForm}
+						onChange={e => handleTodoChange(e, 'title')}
+					/>
+					<textarea
+						className="form-control"
+						value={todo.content}
+						autoFocus={false}
+						placeholder="Enter description"
+						onChange={e => handleTodoChange(e, 'content')}
+					/>
+					<div className="input-group-append">
+						<button className="btn btn-primary" onClick={handleTodoAdd}>
+							Add
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }
