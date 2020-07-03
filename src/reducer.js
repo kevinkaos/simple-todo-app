@@ -1,7 +1,13 @@
 import { MODE_NONE, MODE_SEARCH, MODE_CREATE } from './services/mode';
+import { search } from './services/query';
 
 export default function reducer(state, action) {
 	switch (action.type) {
+		case 'SEARCH':
+			return {
+				...state,
+				todos: search(state.todos, action.payload)
+			};
 		case 'CHANGE_MODE':
 			if (action.payload === MODE_NONE) {
 				return { ...state, mode: action.payload };

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Store from '../context';
 import { MODE_CREATE, MODE_SEARCH } from '../services/mode';
 
@@ -9,6 +9,13 @@ export default function TodoForm() {
 	// todo item that will be sent to the global store.
 	const [ todo, setTodo ] = useState({ uniqueId: getUniqueId(), title: '', content: '' });
 	const [ query, setQuery ] = useState('');
+
+	useEffect(
+		() => {
+			dispatch({ type: 'SEARCH', payload: query });
+		},
+		[ query ]
+	);
 
 	function getUniqueId() {
 		return Date.now();
@@ -60,6 +67,7 @@ export default function TodoForm() {
 							style={{ width: '100%' }}
 							value={todo.content}
 							autoFocus={false}
+							onKeyUp={handleSubmitForm}
 							placeholder="Enter description"
 							onChange={e => handleTodoChange(e, 'content')}
 						/>
@@ -74,12 +82,16 @@ export default function TodoForm() {
 					<div className="input-group">
 						<input
 							className="form-control"
-							style={{ width: '100%' }}
 							value={query}
 							autoFocus={true}
 							placeholder="Search..."
 							onChange={handleSearch}
 						/>
+						{/* <div className="input-group-append">
+							<button className="btn btn-primary" onClick={handleSubmitSearch}>
+								Search
+							</button>
+						</div> */}
 					</div>
 				)}
 			</div>
