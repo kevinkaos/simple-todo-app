@@ -8,11 +8,11 @@ export default function TodoList() {
 
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
-	const onDelete = todo => {
+	const onDelete = uniqueId => {
 		setTimeout(() => {
 			dispatch({
 				type: 'COMPLETE',
-				payload: todo
+				payload: uniqueId
 			});
 		}, 3000);
 	};
@@ -61,7 +61,7 @@ export default function TodoList() {
 											<td>
 												<button
 													className="float-right btn btn-danger btn-sm"
-													onClick={() => onDelete(todo)}
+													onClick={() => onDelete(todo.uniqueId)}
 												>
 													Delete
 												</button>

@@ -55,7 +55,8 @@ export default function reducer(state, action) {
 		case 'COMPLETE':
 			return {
 				...state,
-				filtered: state.filtered.filter(t => t !== action.payload)
+				todos: state.todos.filter(t => t.uniqueId.toString() !== action.payload.toString()),
+				filtered: state.filtered.filter(t => t.uniqueId.toString() !== action.payload.toString())
 			};
 		default:
 			return state;
