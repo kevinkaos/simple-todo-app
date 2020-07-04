@@ -9,7 +9,9 @@ const Store = React.createContext({
 	todos,
 	columns,
 	mode: MODE_NONE,
-	query: ''
+	filtered: [],
+	currentTodo: {},
+	index: undefined
 });
 
 export default Store;

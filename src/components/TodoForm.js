@@ -1,20 +1,24 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Store from '../context';
-import { MODE_CREATE, MODE_SEARCH } from '../services/mode';
+import { search } from '../services/query';
+import { MODE_CREATE, MODE_SEARCH, MODE_EDIT } from '../services/mode';
 
 export default function TodoForm() {
 	const { state, dispatch } = useContext(Store);
-	const { mode } = state;
+	const { mode, currentTodo } = state;
 	// Creating a local state to have currently writing
 	// todo item that will be sent to the global store.
 	const [ todo, setTodo ] = useState({ uniqueId: getUniqueId(), title: '', content: '' });
 	const [ query, setQuery ] = useState('');
+	const [ editTodo, setEditTodo ] = useState({ ...currentTodo });
 
 	useEffect(
 		() => {
-			dispatch({ type: 'SEARCH', payload: query });
+			dispatch({ type: 'SEARCH', payload: { filtered: search(state.todos, query) } });
+
+			setEditTodo({ ...currentTodo });
 		},
-		[ query ]
+		[ query, dispatch, currentTodo, state.todos ]
 	);
 
 	function getUniqueId() {
@@ -25,6 +29,14 @@ export default function TodoForm() {
 		setQuery(e.target.value);
 	}
 
+	function handleEditTodoChange(e, type) {
+		if (type === 'title') {
+			setEditTodo({ ...editTodo, title: e.target.value });
+		} else if (type === 'content') {
+			setEditTodo({ ...editTodo, content: e.target.value });
+		}
+	}
+
 	function handleTodoChange(e, type) {
 		if (type === 'title') {
 			setTodo({ ...todo, title: e.target.value });
@@ -32,9 +44,12 @@ export default function TodoForm() {
 			setTodo({ ...todo, content: e.target.value });
 		}
 	}
+	function handleTodoEdit() {
+		dispatch({ type: 'UPDATE_TODO', payload: { editTodo, index: state.index } });
+	}
 
 	function handleTodoAdd() {
-		// Set timeout to ensure Date.now is a unique ID also to seem like an async task
+		// Set timeout to ensure Date.now is a unique ID
 		if (todo.title) {
 			setTimeout(() => {
 				dispatch({ type: 'ADD_TODO', payload: todo });
@@ -43,8 +58,12 @@ export default function TodoForm() {
 		}
 	}
 
-	function handleSubmitForm(event) {
-		if (event.keyCode === 13) handleTodoAdd();
+	function handleSubmitForm(event, type) {
+		if (type === 'add') {
+			if (event.keyCode === 13) handleTodoAdd();
+		} else if (type === 'edit') {
+			if (event.keyCode === 13) handleTodoEdit();
+		}
 	}
 
 	return (
@@ -59,7 +78,7 @@ export default function TodoForm() {
 							value={todo.title}
 							autoFocus={true}
 							placeholder="Enter todo title(required)"
-							onKeyUp={handleSubmitForm}
+							onKeyUp={e => handleSubmitForm(e, 'add')}
 							onChange={e => handleTodoChange(e, 'title')}
 						/>
 						<textarea
@@ -67,13 +86,40 @@ export default function TodoForm() {
 							style={{ width: '100%' }}
 							value={todo.content}
 							autoFocus={false}
-							onKeyUp={handleSubmitForm}
+							onKeyUp={e => handleSubmitForm(e, 'add')}
 							placeholder="Enter description"
 							onChange={e => handleTodoChange(e, 'content')}
 						/>
 						<div className="input-group-append" style={{ width: '100%' }}>
 							<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoAdd}>
 								Add
+							</button>
+						</div>
+					</div>
+				)}
+				{mode === MODE_EDIT && (
+					<div className="input-group">
+						<input
+							className="form-control"
+							style={{ width: '100%' }}
+							value={editTodo.title}
+							autoFocus={true}
+							placeholder="Enter todo title(required)"
+							onKeyUp={e => handleSubmitForm(e, 'edit')}
+							onChange={e => handleEditTodoChange(e, 'title')}
+						/>
+						<textarea
+							className="form-control"
+							style={{ width: '100%' }}
+							value={editTodo.content}
+							autoFocus={false}
+							onKeyUp={e => handleSubmitForm(e, 'edit')}
+							placeholder="Enter description"
+							onChange={e => handleEditTodoChange(e, 'content')}
+						/>
+						<div className="input-group-append" style={{ width: '100%' }}>
+							<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoEdit}>
+								EDIT
 							</button>
 						</div>
 					</div>

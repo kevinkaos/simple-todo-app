@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import Store from '../context';
 import { TodoHeader } from './TodoHeader';
+import { MODE_EDIT } from '../services/mode';
 
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
@@ -9,13 +10,20 @@ export default function TodoList() {
 
 	const onDelete = todo => {
 		setTimeout(() => {
-			dispatch({ type: 'COMPLETE', payload: todo });
+			dispatch({
+				type: 'COMPLETE',
+				payload: todo
+			});
 		}, 3000);
+	};
+
+	const onEdit = (todo, index) => {
+		dispatch({ type: 'CHANGE_MODE', payload: { mode: MODE_EDIT, currentTodo: todo, index } });
 	};
 
 	let header = (
 		<TodoHeader>
-			<span className="float-right">{pluralize(state.todos.length)}</span>
+			<span className="float-right">{pluralize(state.filtered.length)}</span>
 		</TodoHeader>
 	);
 	return (
@@ -27,7 +35,7 @@ export default function TodoList() {
 						{header}
 					</div>
 				</div>
-				{state.todos.length > 0 && (
+				{state.filtered.length > 0 && (
 					<div className="row">
 						<div className="col-md-12">
 							<table className="table">
@@ -45,7 +53,7 @@ export default function TodoList() {
 									</tr>
 								</thead>
 								<tbody>
-									{state.todos.map(todo => (
+									{state.filtered.map((todo, index) => (
 										<tr key={todo.uniqueId}>
 											<th scope="row">{todo.uniqueId}</th>
 											<td>{todo.title}</td>
@@ -60,6 +68,7 @@ export default function TodoList() {
 												<button
 													style={{ marginRight: '1rem' }}
 													className="float-right btn btn-primary btn-sm"
+													onClick={() => onEdit(todo, index)}
 												>
 													Edit
 												</button>
