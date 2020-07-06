@@ -17,10 +17,10 @@ function partitionAscending(items, left, right, type) {
 				j--;
 			}
 		} else if (type === 'title') {
-			while (Math.sign(items[i][type].localeCompare(pivot)) < 0) {
+			while (Math.sign(items[i][type].localeCompare(pivot, 'en', { numeric: true })) < 0) {
 				i++;
 			}
-			while (Math.sign(items[j][type].localeCompare(pivot)) > 0) {
+			while (Math.sign(items[j][type].localeCompare(pivot, 'en', { numeric: true })) > 0) {
 				j--;
 			}
 		}
@@ -47,10 +47,10 @@ function partitionDescending(items, left, right, type) {
 				j--;
 			}
 		} else if (type === 'title') {
-			while (Math.sign(items[i][type].localeCompare(pivot)) > 0) {
+			while (Math.sign(items[i][type].localeCompare(pivot, 'en', { numeric: true })) > 0) {
 				i++;
 			}
-			while (Math.sign(items[j][type].localeCompare(pivot)) < 0) {
+			while (Math.sign(items[j][type].localeCompare(pivot, 'en', { numeric: true })) < 0) {
 				j--;
 			}
 		}
