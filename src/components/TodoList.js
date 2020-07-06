@@ -9,7 +9,7 @@ export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
 	const [ flag, setFlag ] = useState(false);
 	const [ previousUniqueIds, setPreviousUniqueIds ] = useState([]);
-	const [ ascending, setAscending ] = useState(state.ascending);
+	const [ ascending, setAscending ] = useState(true);
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
 	useEffect(
@@ -64,6 +64,10 @@ export default function TodoList() {
 			const sorted = quickSort(num, 0, num.length - 1, 'uniqueId', ascending);
 			dispatch({ type: 'SORT', payload: sorted });
 		} else if (column === 'Title') {
+			setAscending(!ascending);
+			const filtered = [ ...state.filtered ];
+			const sorted = quickSort(filtered, 0, filtered.length - 1, 'title', ascending);
+			dispatch({ type: 'SORT', payload: sorted });
 		}
 	};
 

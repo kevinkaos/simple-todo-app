@@ -9,11 +9,20 @@ function partitionAscending(items, left, right, type) {
 	let i = left; //left pointer
 	let j = right; //right pointer
 	while (i <= j) {
-		while (items[i][type] < pivot) {
-			i++;
-		}
-		while (items[j][type] > pivot) {
-			j--;
+		if (type === 'uniqueId') {
+			while (items[i][type] < pivot) {
+				i++;
+			}
+			while (items[j][type] > pivot) {
+				j--;
+			}
+		} else if (type === 'title') {
+			while (Math.sign(items[i][type].localeCompare(pivot)) < 0) {
+				i++;
+			}
+			while (Math.sign(items[j][type].localeCompare(pivot)) > 0) {
+				j--;
+			}
 		}
 		if (i <= j) {
 			swap(items, i, j); //swapping two elements
@@ -30,11 +39,20 @@ function partitionDescending(items, left, right, type) {
 	let i = left; //left pointer
 	let j = right; //right pointer
 	while (i <= j) {
-		while (items[i][type] > pivot) {
-			i++;
-		}
-		while (items[j][type] < pivot) {
-			j--;
+		if (type === 'uniqueId') {
+			while (items[i][type] > pivot) {
+				i++;
+			}
+			while (items[j][type] < pivot) {
+				j--;
+			}
+		} else if (type === 'title') {
+			while (Math.sign(items[i][type].localeCompare(pivot)) > 0) {
+				i++;
+			}
+			while (Math.sign(items[j][type].localeCompare(pivot)) < 0) {
+				j--;
+			}
 		}
 		if (i <= j) {
 			swap(items, i, j); //swapping two elements
