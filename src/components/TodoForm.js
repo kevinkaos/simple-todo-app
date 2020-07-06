@@ -5,7 +5,7 @@ import { MODE_CREATE, MODE_SEARCH, MODE_EDIT, MODE_NONE } from '../services/mode
 
 export default function TodoForm() {
 	const { state, dispatch } = useContext(Store);
-	const { mode, currentTodo } = state;
+	const { mode, currentTodo, processing } = state;
 	// Creating a local state to have currently writing
 	// todo item that will be sent to the global store.
 	const [ todo, setTodo ] = useState({ uniqueId: getUniqueId(), title: '', content: '' });
@@ -92,7 +92,12 @@ export default function TodoForm() {
 							onChange={e => handleTodoChange(e, 'content')}
 						/>
 						<div className="input-group-append" style={{ width: '100%' }}>
-							<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoAdd}>
+							<button
+								disabled={processing}
+								className="btn btn-primary"
+								style={{ width: '100%' }}
+								onClick={handleTodoAdd}
+							>
 								Add
 							</button>
 						</div>
@@ -119,7 +124,12 @@ export default function TodoForm() {
 							onChange={e => handleEditTodoChange(e, 'content')}
 						/>
 						<div className="input-group-append" style={{ width: '100%' }}>
-							<button className="btn btn-primary" style={{ width: '100%' }} onClick={handleTodoEdit}>
+							<button
+								disabled={processing}
+								className="btn btn-primary"
+								style={{ width: '100%' }}
+								onClick={handleTodoEdit}
+							>
 								EDIT
 							</button>
 						</div>

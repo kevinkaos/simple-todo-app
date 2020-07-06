@@ -11,6 +11,7 @@ const Store = React.createContext({
 	mode: MODE_NONE,
 	filtered: [],
 	currentTodo: {},
+	processing: false,
 	index: undefined
 });
 

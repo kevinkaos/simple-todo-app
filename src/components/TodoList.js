@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Store from '../context';
 import { TodoHeader } from './TodoHeader';
 import { MODE_EDIT } from '../services/mode';
@@ -6,28 +6,35 @@ import Queue from '../services/queue';
 
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
-
+	const [ flag, setFlag ] = useState(false);
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
-	const delay = (action, ms) =>
-		new Promise(r =>
+	useEffect(
+		() => {
+			dispatch({ type: 'PROCESSING_FLAG', payload: flag });
+		},
+		[ flag ]
+	);
+
+	const delay = async (action, ms) => {
+		setFlag(true);
+		const res = await new Promise(r =>
 			setTimeout(() => {
 				r(action);
 			}, ms)
-		).then(res => {
-			res();
-		});
+		);
+		setFlag(false);
+		res();
+	};
 
 	const onDelete = uniqueId => {
 		Queue.enqueue(() =>
-			delay(
-				() =>
-					dispatch({
-						type: 'COMPLETE',
-						payload: uniqueId
-					}),
-				3000
-			)
+			delay(() => {
+				dispatch({
+					type: 'COMPLETE',
+					payload: uniqueId
+				});
+			}, 3000)
 		);
 	};
 
@@ -82,6 +89,7 @@ export default function TodoList() {
 												<button
 													style={{ marginRight: '1rem' }}
 													className="float-right btn btn-primary btn-sm"
+													disabled={state.processing}
 													onClick={() => onEdit(todo, index)}
 												>
 													Edit
