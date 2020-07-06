@@ -7,13 +7,16 @@ import Queue from '../services/queue';
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
 	const [ flag, setFlag ] = useState(false);
+	const [ previousUniqueIds, setPreviousUniqueIds ] = useState([]);
+
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
 	useEffect(
 		() => {
 			dispatch({ type: 'PROCESSING_FLAG', payload: flag });
+			dispatch({ type: 'PREVIOUS_UNIQUE_ID', payload: previousUniqueIds });
 		},
-		[ flag ]
+		[ flag, previousUniqueIds ]
 	);
 
 	const delay = async (action, ms) => {
@@ -28,14 +31,21 @@ export default function TodoList() {
 	};
 
 	const onDelete = uniqueId => {
-		Queue.enqueue(() =>
-			delay(() => {
-				dispatch({
-					type: 'COMPLETE',
-					payload: uniqueId
-				});
-			}, 3000)
-		);
+		const addDeletedToState = previousUniqueIds.concat(uniqueId);
+		const index = state.previousUniqueIds.findIndex(t => t === uniqueId);
+		if (index === -1) {
+			setPreviousUniqueIds([ ...addDeletedToState ]);
+		}
+		if (index === -1) {
+			Queue.enqueue(() =>
+				delay(() => {
+					dispatch({
+						type: 'COMPLETE',
+						payload: uniqueId
+					});
+				}, 3000)
+			);
+		}
 	};
 
 	const onEdit = (todo, index) => {

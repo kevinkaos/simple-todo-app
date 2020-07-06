@@ -12,6 +12,7 @@ const Store = React.createContext({
 	filtered: [],
 	currentTodo: {},
 	processing: false,
+	previousUniqueIds: [],
 	index: undefined
 });
 

@@ -2,6 +2,11 @@ import { MODE_NONE, MODE_SEARCH, MODE_CREATE, MODE_EDIT } from './services/mode'
 
 export default function reducer(state, action) {
 	switch (action.type) {
+		case 'PREVIOUS_UNIQUE_ID':
+			return {
+				...state,
+				previousUniqueIds: [ ...action.payload ]
+			};
 		case 'PROCESSING_FLAG':
 			return {
 				...state,
