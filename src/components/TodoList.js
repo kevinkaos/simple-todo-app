@@ -10,6 +10,7 @@ export default function TodoList() {
 	const [ flag, setFlag ] = useState(false);
 	const [ previousUniqueIds, setPreviousUniqueIds ] = useState([]);
 	const [ ascending, setAscending ] = useState(true);
+
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
 	useEffect(
