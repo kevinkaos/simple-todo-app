@@ -2,19 +2,33 @@ import React, { useContext } from 'react';
 import Store from '../context';
 import { TodoHeader } from './TodoHeader';
 import { MODE_EDIT } from '../services/mode';
+import Queue from '../services/queue';
 
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
 
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
+	const delay = (action, ms) =>
+		new Promise(r =>
+			setTimeout(() => {
+				r(action);
+			}, ms)
+		).then(res => {
+			res();
+		});
+
 	const onDelete = uniqueId => {
-		setTimeout(() => {
-			dispatch({
-				type: 'COMPLETE',
-				payload: uniqueId
-			});
-		}, 3000);
+		Queue.enqueue(() =>
+			delay(
+				() =>
+					dispatch({
+						type: 'COMPLETE',
+						payload: uniqueId
+					}),
+				3000
+			)
+		);
 	};
 
 	const onEdit = (todo, index) => {

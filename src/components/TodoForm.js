@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import Store from '../context';
 import { search } from '../services/query';
-import { MODE_CREATE, MODE_SEARCH, MODE_EDIT } from '../services/mode';
+import { MODE_CREATE, MODE_SEARCH, MODE_EDIT, MODE_NONE } from '../services/mode';
 
 export default function TodoForm() {
 	const { state, dispatch } = useContext(Store);
@@ -46,6 +46,7 @@ export default function TodoForm() {
 	}
 	function handleTodoEdit() {
 		dispatch({ type: 'UPDATE_TODO', payload: { editTodo, index: state.index } });
+		dispatch({ type: 'CHANGE_MODE', payload: MODE_NONE });
 	}
 
 	function handleTodoAdd() {
