@@ -24,10 +24,6 @@ export default function reducer(state, action) {
 				filtered: action.payload.filtered
 			};
 		case 'UPDATE_TODO':
-			// return current state if empty
-			if (!action.payload) {
-				return state;
-			}
 			const filtered = [ ...state.filtered ];
 			const todos = [ ...state.todos ];
 			filtered.splice(action.payload.index, 1, action.payload.editTodo);
@@ -57,14 +53,6 @@ export default function reducer(state, action) {
 			}
 			return state;
 		case 'ADD_TODO':
-			// return current state if empty
-			if (!action.payload) {
-				return state;
-			}
-			// return current state if duplicate
-			if (state.filtered.includes(action.payload)) {
-				return state;
-			}
 			return {
 				...state,
 				todos: [ ...state.todos, action.payload ],
