@@ -1,6 +1,9 @@
 export const todos = [
-	{ uniqueId: 12345678, title: 'testing', content: 'gnitset' },
-	{ uniqueId: 22345678, title: 'testing2', content: 'gnitset2' },
-	{ uniqueId: 32345678, title: 'testing3', content: 'gnitset3' },
-	{ uniqueId: 42345678, title: 'testing4', content: 'gnitset4' }
+	{ uniqueId: 12345678, title: '1atesting', content: 'M' },
+	{ uniqueId: 22345678, title: 'btesting2', content: 'I' },
+	{ uniqueId: 32345678, title: 'dtesting3', content: 'K' },
+	{ uniqueId: 42345678, title: 'ftesting4', content: 'E' },
+	{ uniqueId: 52345678, title: 'etesting5', content: 'K' },
+	{ uniqueId: 62345678, title: 'ctesting6', content: 'I' },
+	{ uniqueId: 72345678, title: 'gtesting10', content: 'M' }
 ];

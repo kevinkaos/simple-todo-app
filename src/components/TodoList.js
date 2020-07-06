@@ -39,8 +39,6 @@ export default function TodoList() {
 		const index = state.previousUniqueIds.findIndex(t => t === uniqueId);
 		if (index === -1) {
 			setPreviousUniqueIds([ ...addDeletedToState ]);
-		}
-		if (index === -1) {
 			Queue.enqueue(() =>
 				delay(() => {
 					dispatch({
@@ -76,7 +74,8 @@ export default function TodoList() {
 
 	let header = (
 		<TodoHeader>
-			<span className="float-right">{pluralize(state.filtered.length)}</span>
+			{!state.processing && <span className="float-right">{pluralize(state.filtered.length)}</span>}
+			{state.processing && <span className="float-right">Deleting...</span>}
 		</TodoHeader>
 	);
 	return (
