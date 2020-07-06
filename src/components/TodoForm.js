@@ -24,7 +24,7 @@ export default function TodoForm() {
 	);
 
 	function getUniqueId() {
-		return Date.now();
+		return parseFloat(Date.now().toString().slice(5));
 	}
 
 	function handleSearch(e) {
