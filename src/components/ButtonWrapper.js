@@ -9,12 +9,12 @@ export default function ButtonWrapper() {
 
 	return (
 		<div className="buttons">
-			<a
-				title="Add New"
+			<button
+				title="buttondd New"
 				className={'button add ' + (isCreateMode() ? 'selected' : '')}
 				onClick={() => dispatch({ type: 'CHANGE_MODE', payload: isCreateMode() ? MODE_NONE : MODE_CREATE })}
 			/>
-			<a
+			<button
 				title="Search"
 				className={'button search ' + (isSearchMode() ? 'selected' : '')}
 				onClick={() => dispatch({ type: 'CHANGE_MODE', payload: isSearchMode() ? MODE_NONE : MODE_SEARCH })}

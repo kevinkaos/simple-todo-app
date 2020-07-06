@@ -19,6 +19,7 @@ body {
 	cursor: pointer;
 	opacity: 0.5;
 	transition: 0.3s all;
+	border: 0;
 }
 
 .buttons .button:hover,

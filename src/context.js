@@ -10,7 +10,11 @@ const Store = React.createContext({
 	columns,
 	mode: MODE_NONE,
 	filtered: [],
-	currentTodo: {},
+	currentTodo: {
+		content: '',
+		title: '',
+		uniqueId: 0
+	},
 	processing: false,
 	previousUniqueIds: [],
 	index: undefined
