@@ -1,5 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
+
 import Store from '../context';
+
+import TodoFormInner from './TodoFormInner';
+
 import { search } from '../services/query';
 import { MODE_CREATE, MODE_SEARCH, MODE_EDIT, MODE_NONE } from '../services/mode';
 
@@ -70,71 +74,25 @@ export default function TodoForm() {
 		<div className="row">
 			<div className="col-md-12">
 				<br />
-				{mode === MODE_CREATE && (
-					<div className="input-group">
-						<input
-							className="form-control"
-							style={{ width: '100%' }}
-							value={todo.title}
-							autoFocus={true}
-							placeholder="Enter todo title(required)"
-							onKeyUp={e => handleSubmitForm(e, 'add')}
-							onChange={e => handleTodoChange(e, 'title')}
-						/>
-						<textarea
-							className="form-control"
-							style={{ width: '100%' }}
-							value={todo.content}
-							autoFocus={false}
-							onKeyUp={e => handleSubmitForm(e, 'add')}
-							placeholder="Enter description"
-							onChange={e => handleTodoChange(e, 'content')}
-						/>
-						<div className="input-group-append" style={{ width: '100%' }}>
-							<button
-								disabled={processing}
-								className="btn btn-primary"
-								style={{ width: '100%' }}
-								onClick={handleTodoAdd}
-							>
-								Add
-							</button>
-						</div>
-					</div>
-				)}
-				{mode === MODE_EDIT && (
-					<div className="input-group">
-						<input
-							className="form-control"
-							style={{ width: '100%' }}
-							value={editTodo.title}
-							autoFocus={true}
-							placeholder="Enter todo title(required)"
-							onKeyUp={e => handleSubmitForm(e, 'edit')}
-							onChange={e => handleEditTodoChange(e, 'title')}
-						/>
-						<textarea
-							className="form-control"
-							style={{ width: '100%' }}
-							value={editTodo.content}
-							autoFocus={false}
-							onKeyUp={e => handleSubmitForm(e, 'edit')}
-							placeholder="Enter description"
-							onChange={e => handleEditTodoChange(e, 'content')}
-						/>
-						<div className="input-group-append" style={{ width: '100%' }}>
-							<button
-								disabled={processing}
-								className="btn btn-primary"
-								style={{ width: '100%' }}
-								onClick={handleTodoEdit}
-							>
-								EDIT
-							</button>
-						</div>
-					</div>
-				)}
-				{mode === MODE_SEARCH && (
+				{mode === MODE_CREATE ? (
+					<TodoFormInner
+						processing={processing}
+						btnText={'Add'}
+						values={todo}
+						onKeyUp={handleSubmitForm}
+						onChange={handleTodoChange}
+						onSubmit={handleTodoAdd}
+					/>
+				) : mode === MODE_EDIT ? (
+					<TodoFormInner
+						processing={processing}
+						btnText={'Edit'}
+						values={editTodo}
+						onKeyUp={handleSubmitForm}
+						onChange={handleEditTodoChange}
+						onSubmit={handleTodoEdit}
+					/>
+				) : mode === MODE_SEARCH ? (
 					<div className="input-group">
 						<input
 							className="form-control"
@@ -144,7 +102,7 @@ export default function TodoForm() {
 							onChange={handleSearch}
 						/>
 					</div>
-				)}
+				) : null}
 			</div>
 		</div>
 	);
