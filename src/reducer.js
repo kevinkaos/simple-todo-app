@@ -28,9 +28,14 @@ export default function reducer(state, action) {
 			const todos = [ ...state.todos ];
 			filtered.splice(action.payload.index, 1, action.payload.editTodo);
 			todos.splice(action.payload.index, 1, action.payload.editTodo);
+			const formatTodos = todos.map(t => ({
+				uniqueId: parseFloat(t.uniqueId),
+				title: t.title,
+				content: t.content
+			}));
 			return {
 				...state,
-				todos: [ ...todos ],
+				todos: [ ...formatTodos ],
 				filtered: [ ...filtered ]
 			};
 		case 'CHANGE_MODE':
