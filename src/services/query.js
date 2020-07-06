@@ -30,12 +30,3 @@ export function search(todos, query) {
 
 	return results;
 }
-// function stringIncludes(str, substr) {
-// 	return str.indexOf(substr) !== -1;
-// }
-
-// export function search(list, query) {
-// 	let q = query.trim().toLowerCase();
-
-// 	return list.filter(({ title }) => stringIncludes(title.toLowerCase(), q));
-// }

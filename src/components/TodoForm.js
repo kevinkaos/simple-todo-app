@@ -144,11 +144,6 @@ export default function TodoForm() {
 							placeholder="Search..."
 							onChange={handleSearch}
 						/>
-						{/* <div className="input-group-append">
-							<button className="btn btn-primary" onClick={handleSubmitSearch}>
-								Search
-							</button>
-						</div> */}
 					</div>
 				)}
 			</div>

@@ -12,6 +12,11 @@ export default function reducer(state, action) {
 				...state,
 				processing: action.payload
 			};
+		case 'SORT':
+			return {
+				...state,
+				filtered: action.payload.filtered
+			};
 		case 'SEARCH':
 			return {
 				...state,

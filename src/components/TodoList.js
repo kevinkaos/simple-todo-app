@@ -3,6 +3,7 @@ import Store from '../context';
 import { TodoHeader } from './TodoHeader';
 import { MODE_EDIT } from '../services/mode';
 import Queue from '../services/queue';
+import { quickSort } from '../services/sort';
 
 export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
@@ -52,6 +53,16 @@ export default function TodoList() {
 		dispatch({ type: 'CHANGE_MODE', payload: { mode: MODE_EDIT, currentTodo: todo, index } });
 	};
 
+	const sortBy = column => {
+		if (column === 'ID') {
+			const result = quickSort(state.filtered.map(e => parseFloat(e.uniqueId)));
+			console.log(result);
+		} else if (column === 'Title') {
+			const result = quickSort(state.filtered.map(e => e.title.toString));
+			console.log(result);
+		}
+	};
+
 	let header = (
 		<TodoHeader>
 			<span className="float-right">{pluralize(state.filtered.length)}</span>
@@ -75,8 +86,17 @@ export default function TodoList() {
 										{state.columns.map((col, index) => (
 											<th
 												key={index}
-												style={col === 'Actions' ? { textAlign: 'right' } : {}}
+												style={
+													col === 'Actions' ? { textAlign: 'right' } : { cursor: 'pointer' }
+												}
 												scope="col"
+												onClick={
+													col === 'ID' ? (
+														() => sortBy(col)
+													) : col === 'Title' ? (
+														() => sortBy(col)
+													) : null
+												}
 											>
 												{col}
 											</th>
