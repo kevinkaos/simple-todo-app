@@ -52,6 +52,7 @@ export default function TodoForm() {
 		if (todo.title) {
 			setTimeout(() => {
 				dispatch({ type: 'ADD_TODO', payload: todo });
+				dispatch({ type: 'PREVIOUS_UNIQUE_ID', payload: [] });
 				setTodo({ uniqueId: getUniqueId(), title: '', content: '' });
 			}, 50);
 		}
