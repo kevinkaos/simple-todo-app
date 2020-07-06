@@ -9,7 +9,7 @@ export default function TodoList() {
 	const { state, dispatch } = useContext(Store);
 	const [ flag, setFlag ] = useState(false);
 	const [ previousUniqueIds, setPreviousUniqueIds ] = useState([]);
-
+	const [ ascending, setAscending ] = useState(state.ascending);
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
 	useEffect(
@@ -17,7 +17,7 @@ export default function TodoList() {
 			dispatch({ type: 'PROCESSING_FLAG', payload: flag });
 			dispatch({ type: 'PREVIOUS_UNIQUE_ID', payload: previousUniqueIds });
 		},
-		[ flag, previousUniqueIds ]
+		[ flag, previousUniqueIds, dispatch ]
 	);
 
 	const delay = async (action, ms) => {
@@ -55,11 +55,15 @@ export default function TodoList() {
 
 	const sortBy = column => {
 		if (column === 'ID') {
-			const result = quickSort(state.filtered.map(e => parseFloat(e.uniqueId)));
-			console.log(result);
+			setAscending(!ascending);
+			const num = state.filtered.map(e => ({
+				uniqueId: parseFloat(e.uniqueId),
+				title: e.title,
+				content: e.content
+			}));
+			const sorted = quickSort(num, 0, num.length - 1, 'uniqueId', ascending);
+			dispatch({ type: 'SORT', payload: sorted });
 		} else if (column === 'Title') {
-			const result = quickSort(state.filtered.map(e => e.title.toString));
-			console.log(result);
 		}
 	};
 
@@ -87,7 +91,11 @@ export default function TodoList() {
 											<th
 												key={index}
 												style={
-													col === 'Actions' ? { textAlign: 'right' } : { cursor: 'pointer' }
+													col === 'Actions' ? (
+														{ textAlign: 'right' }
+													) : col !== 'Actions' && col !== 'Content' ? (
+														{ cursor: 'pointer' }
+													) : null
 												}
 												scope="col"
 												onClick={

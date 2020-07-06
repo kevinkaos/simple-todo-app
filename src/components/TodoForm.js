@@ -6,8 +6,6 @@ import { MODE_CREATE, MODE_SEARCH, MODE_EDIT, MODE_NONE } from '../services/mode
 export default function TodoForm() {
 	const { state, dispatch } = useContext(Store);
 	const { mode, currentTodo, processing } = state;
-	// Creating a local state to have currently writing
-	// todo item that will be sent to the global store.
 	const [ todo, setTodo ] = useState({ uniqueId: getUniqueId(), title: '', content: '' });
 	const [ query, setQuery ] = useState('');
 	const [ editTodo, setEditTodo ] = useState({ ...currentTodo });

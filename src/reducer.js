@@ -15,7 +15,8 @@ export default function reducer(state, action) {
 		case 'SORT':
 			return {
 				...state,
-				filtered: action.payload.filtered
+				todos: action.payload,
+				filtered: action.payload
 			};
 		case 'SEARCH':
 			return {
@@ -27,12 +28,14 @@ export default function reducer(state, action) {
 			if (!action.payload) {
 				return state;
 			}
-			state.filtered.splice(action.payload.index, 1, action.payload.editTodo);
-			state.todos.splice(action.payload.index, 1, action.payload.editTodo);
+			const filtered = [ ...state.filtered ];
+			const todos = [ ...state.todos ];
+			filtered.splice(action.payload.index, 1, action.payload.editTodo);
+			todos.splice(action.payload.index, 1, action.payload.editTodo);
 			return {
 				...state,
-				todos: [ ...state.todos ],
-				filtered: [ ...state.filtered ]
+				todos: [ ...todos ],
+				filtered: [ ...filtered ]
 			};
 		case 'CHANGE_MODE':
 			if (action.payload === MODE_NONE) {
