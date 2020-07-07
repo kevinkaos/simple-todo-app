@@ -22,7 +22,7 @@ export default function TodoList() {
 			dispatch({ type: 'PROCESSING_FLAG', payload: flag });
 			dispatch({ type: 'PREVIOUS_UNIQUE_ID', payload: previousUniqueIds });
 		},
-		[ flag, previousUniqueIds, dispatch, state.mode ]
+		[ flag, previousUniqueIds, dispatch ]
 	);
 
 	const delay = async (action, ms) => {
