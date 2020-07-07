@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Store from '../context';
 import { TodoHeader } from './TodoHeader';
 
-import { MODE_EDIT, MODE_NONE } from '../services/mode';
+import { MODE_EDIT } from '../services/mode';
 import Queue from '../services/queue';
 import { quickSort } from '../services/sort';
 
