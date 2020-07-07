@@ -24,6 +24,8 @@ export default function reducer(state, action) {
 				filtered: action.payload.filtered
 			};
 		case 'UPDATE_TODO':
+			// state should be immutable so created a new variable for manipulating with splice
+			// mapping to ensure uniqueId is float for uploading to server **API integratable**
 			const filtered = [ ...state.filtered ];
 			const todos = [ ...state.todos ];
 			filtered.splice(action.payload.index, 1, action.payload.editTodo);
@@ -49,6 +51,7 @@ export default function reducer(state, action) {
 				return { ...state, mode: action.payload };
 			}
 			if (action.payload.mode === MODE_EDIT) {
+				// when mode === edit, set current editing todo to state, and also the index of the todo for updating
 				return {
 					...state,
 					mode: action.payload.mode,
@@ -64,6 +67,7 @@ export default function reducer(state, action) {
 				filtered: [ ...state.filtered, action.payload ]
 			};
 		case 'COMPLETE':
+			// filter returns a new function without mutating state, so I directly applied it.
 			return {
 				...state,
 				todos: state.todos.filter(t => t.uniqueId.toString() !== action.payload.toString()),

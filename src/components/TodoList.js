@@ -3,7 +3,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import Store from '../context';
 import { TodoHeader } from './TodoHeader';
 
-import { MODE_EDIT } from '../services/mode';
+import { MODE_EDIT, MODE_NONE } from '../services/mode';
 import Queue from '../services/queue';
 import { quickSort } from '../services/sort';
 
@@ -15,12 +15,14 @@ export default function TodoList() {
 
 	const pluralize = count => (count > 1 ? `There are ${count} todos.` : `There is ${count} todo.`);
 
+	const isEditMode = () => state.mode === MODE_EDIT;
+
 	useEffect(
 		() => {
 			dispatch({ type: 'PROCESSING_FLAG', payload: flag });
 			dispatch({ type: 'PREVIOUS_UNIQUE_ID', payload: previousUniqueIds });
 		},
-		[ flag, previousUniqueIds, dispatch ]
+		[ flag, previousUniqueIds, dispatch, state.mode ]
 	);
 
 	const delay = async (action, ms) => {
@@ -51,7 +53,10 @@ export default function TodoList() {
 	};
 
 	const onEdit = (todo, index) => {
-		dispatch({ type: 'CHANGE_MODE', payload: { mode: MODE_EDIT, currentTodo: todo, index } });
+		dispatch({
+			type: 'CHANGE_MODE',
+			payload: { mode: MODE_EDIT, currentTodo: todo, index }
+		});
 	};
 
 	const sortBy = column => {
@@ -127,6 +132,7 @@ export default function TodoList() {
 												<button
 													className="float-right btn btn-danger btn-sm"
 													onClick={() => onDelete(todo.uniqueId)}
+													disabled={isEditMode()}
 												>
 													Delete
 												</button>
