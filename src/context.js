@@ -6,7 +6,7 @@ import { todos } from './services/todos';
 // Store Context is the global context that is managed by reducers.
 
 const Store = React.createContext({
-	//todos && filtered are the same, except one is anchor the other is for showing searched results, they must be diff
+	//todos && filtered are the same, except one is anchor the other is for showing searched results
 	todos,
 	columns,
 	mode: MODE_NONE,

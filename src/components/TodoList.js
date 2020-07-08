@@ -36,6 +36,9 @@ export default function TodoList() {
 		res();
 	};
 
+	// on delete if index === -1 of previous added ids means
+	// it has already been queued or previously deleted,
+	// so only perform actions if not already queued in delete queue
 	const onDelete = uniqueId => {
 		const addDeletedToState = previousUniqueIds.concat(uniqueId);
 		const index = state.previousUniqueIds.findIndex(t => t === uniqueId);
@@ -59,6 +62,7 @@ export default function TodoList() {
 		});
 	};
 
+	// when sorting, first check what type of sort, then reverse ascending or descending
 	const sortBy = column => {
 		if (column === 'ID') {
 			setAscending(!ascending);
@@ -67,6 +71,7 @@ export default function TodoList() {
 				title: e.title,
 				content: e.content
 			}));
+			// custom sort (quickSort()) recursively sorts based on id or title and ascending or descending
 			const sorted = quickSort(num, 0, num.length - 1, 'uniqueId', ascending);
 			dispatch({ type: 'SORT', payload: sorted });
 		} else if (column === 'Title') {
